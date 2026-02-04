@@ -54,3 +54,29 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 updateClock();
+const GMAIL_API_URL = "https://script.google.com/macros/s/AKfycbzpKsjTZkRYxOq7xpUI9zIHL_BHCoj8T62hS5iRiKGY-hviYgYqaiadwkJdHmqkDnVEfA/exec";
+
+function loadChemistryTasks() {
+  fetch(GMAIL_API_URL)
+    .then(res => res.json())
+    .then(tasks => {
+      const list = document.getElementById("chemistryTasks");
+      list.innerHTML = "";
+
+      if (tasks.length === 0) {
+        list.innerHTML = "<li>No new chemistry tasks 🎉</li>";
+        return;
+      }
+
+      tasks.forEach(task => {
+        const li = document.createElement("li");
+        li.textContent = `${task.subject} (${new Date(task.date).toLocaleString()})`;
+        list.appendChild(li);
+      });
+    })
+    .catch(err => {
+      alert("Failed to load tasks");
+      console.error(err);
+    });
+}
+
