@@ -25,3 +25,8 @@ button {
 #history {
     list-style: none;
 }
+.app-logo {
+    width: 120px;
+    display: block;
+    margin: 10px auto;
+}
