@@ -1,32 +1,51 @@
-body {
-    font-family: Arial;
+body{
+    font-family: Arial, sans-serif;
     text-align: center;
+    background: #0f172a;
+    color: white;
+    padding: 20px;
 }
 
-#display {
-    width: 200px;
-    height: 40px;
-    font-size: 20px;
+h1{
+    color: #38bdf8;
+}
+
+.logo{
     margin: 10px;
 }
 
-button {
-    width: 60px;
-    height: 50px;
+input{
+    padding: 10px;
     margin: 5px;
     font-size: 18px;
+    border-radius: 6px;
+    border: none;
+    text-align: center;
 }
 
-#clock {
+button{
+    padding: 12px;
     font-size: 18px;
-    margin-bottom: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #38bdf8;
+    color: black;
+    cursor: pointer;
 }
 
-#history {
-    list-style: none;
+button:hover{
+    background: #0ea5e9;
 }
-.app-logo {
-    width: 120px;
-    display: block;
-    margin: 10px auto;
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(4,70px);
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#display{
+    width: 290px;
+    font-size: 22px;
 }

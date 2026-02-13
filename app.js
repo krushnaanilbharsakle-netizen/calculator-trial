@@ -1,82 +1,129 @@
+/* ================= CALCULATOR ================= */
+
 let display = document.getElementById("display");
-let historyList = document.getElementById("history");
 
-let history = JSON.parse(localStorage.getItem("calcHistory")) || [];
-
-function updateHistory() {
-    historyList.innerHTML = "";
-
-    history.forEach(item => {
-        let li = document.createElement("li");
-        li.textContent = item;
-        historyList.appendChild(li);
-    });
+function appendValue(val){
+    display.value += val;
 }
 
-updateHistory();
-
-function appendValue(value) {
-    display.value += value;
-}
-
-function clearDisplay() {
+function clearDisplay(){
     display.value = "";
 }
 
-function calculate() {
-    try {
-        let result = eval(display.value);
-        let entry = display.value + " = " + result;
-
-        history.push(entry);
-        localStorage.setItem("calcHistory", JSON.stringify(history));
-
-        updateHistory();
-        display.value = result;
-
-    } catch {
-        display.value = "Error";
+function calculate(){
+    try{
+        display.value = eval(display.value);
+    }
+    catch{
+        alert("Invalid Expression");
     }
 }
 
-function clearHistory() {
-    history = [];
-    localStorage.removeItem("calcHistory");
-    updateHistory();
-}
 
-function updateClock() {
-    let now = new Date();
+/* ================= TIMER ================= */
 
-    document.getElementById("clock").textContent =
-        now.toDateString() + " " + now.toLocaleTimeString();
-}
+let timerInterval;
+let alarmSound = new Audio("alarm.mp3");
 
-setInterval(updateClock, 1000);
-updateClock();
-const GMAIL_API_URL = "https://script.google.com/macros/s/AKfycbzpKsjTZkRYxOq7xpUI9zIHL_BHCoj8T62hS5iRiKGY-hviYgYqaiadwkJdHmqkDnVEfA/exec";
+function startTimer(){
 
-function loadChemistryTasks() {
-  fetch(GMAIL_API_URL)
-    .then(res => res.json())
-    .then(tasks => {
-      const list = document.getElementById("chemistryTasks");
-      list.innerHTML = "";
+    let min = Number(document.getElementById("timerMin").value) || 0;
+    let sec = Number(document.getElementById("timerSec").value) || 0;
 
-      if (tasks.length === 0) {
-        list.innerHTML = "<li>No new chemistry tasks 🎉</li>";
+    let total = min * 60 + sec;
+
+    if(total <= 0){
+        alert("Enter valid time");
         return;
-      }
+    }
 
-      tasks.forEach(task => {
-        const li = document.createElement("li");
-        li.textContent = `${task.subject} (${new Date(task.date).toLocaleString()})`;
-        list.appendChild(li);
-      });
-    })
-    .catch(err => {
-      alert("Failed to load tasks");
-      console.error(err);
-    });
+    clearInterval(timerInterval);
+    updateCountdown(total);
+
+    timerInterval = setInterval(()=>{
+
+        total--;
+        updateCountdown(total);
+
+        if(total <= 0){
+
+            clearInterval(timerInterval);
+
+            alarmSound.loop = true;
+            alarmSound.play();
+
+            setTimeout(()=>{
+                alarmSound.pause();
+                alarmSound.currentTime = 0;
+            },8000);
+        }
+
+    },1000);
 }
 
+function updateCountdown(total){
+
+    let m = Math.floor(total/60);
+    let s = total % 60;
+
+    document.getElementById("countdown").innerText =
+        String(m).padStart(2,'0') + ":" +
+        String(s).padStart(2,'0');
+}
+
+
+/* ================= NOTIFICATION ================= */
+
+function requestNotificationPermission(){
+
+    if(Notification.permission !== "granted"){
+        Notification.requestPermission();
+    }
+}
+
+function scheduleNotification(){
+
+    requestNotificationPermission();
+
+    let message = document.getElementById("notifyMessage").value || "Reminder";
+    let min = Number(document.getElementById("notifyMin").value) || 0;
+    let sec = Number(document.getElementById("notifySec").value) || 0;
+
+    let total = min * 60 + sec;
+
+    if(total <= 0){
+        alert("Enter valid notification time");
+        return;
+    }
+
+    document.getElementById("status").innerText =
+        "Status : Notification Set";
+
+    setTimeout(()=>{
+
+        if(Notification.permission === "granted"){
+
+            new Notification(message);
+            playNotificationSound();
+        }
+
+    }, total * 1000);
+}
+
+
+/* ================= NOTIFICATION SOUND ================= */
+
+let notificationAudio = new Audio("alarm.mp3");
+
+function playNotificationSound(){
+
+    notificationAudio.pause();
+    notificationAudio.currentTime = 0;
+
+    notificationAudio.play().catch(()=>{});
+
+    setTimeout(()=>{
+        notificationAudio.pause();
+        notificationAudio.currentTime = 0;
+    },5000);
+}

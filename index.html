@@ -1,50 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Smart Calculator Trial</title>
-    <link rel="stylesheet" href="style.css">
+<title>Trial Productivity Test</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <img src="logo.JPG" class="app-logo">
-<h2>Chemistry Tasks (From Gmail)</h2>
-<button onclick="loadChemistryTasks()">Sync Chemistry Tasks</button>
-<ul id="chemistryTasks"></ul>
 
+<h1>Productivity Trial</h1>
 
-<h2>Smart Calculator</h2>
+<img src="logo.JPG" width="90" class="logo">
 
-<div id="clock"></div>
+<hr>
 
-<input type="text" id="display" disabled>
+<!-- ================= CALCULATOR ================= -->
 
-<div class="buttons">
-    <button onclick="appendValue('7')">7</button>
-    <button onclick="appendValue('8')">8</button>
-    <button onclick="appendValue('9')">9</button>
-    <button onclick="appendValue('+')">+</button>
+<h2>Calculator</h2>
 
-    <button onclick="appendValue('4')">4</button>
-    <button onclick="appendValue('5')">5</button>
-    <button onclick="appendValue('6')">6</button>
-    <button onclick="appendValue('-')">-</button>
+<input id="display" readonly>
 
-    <button onclick="appendValue('1')">1</button>
-    <button onclick="appendValue('2')">2</button>
-    <button onclick="appendValue('3')">3</button>
-    <button onclick="appendValue('*')">*</button>
+<div class="grid">
 
-    <button onclick="appendValue('0')">0</button>
-    <button onclick="calculate()">=</button>
-    <button onclick="clearDisplay()">C</button>
-    <button onclick="appendValue('/')">/</button>
+<button onclick="appendValue('7')">7</button>
+<button onclick="appendValue('8')">8</button>
+<button onclick="appendValue('9')">9</button>
+<button onclick="appendValue('/')">÷</button>
+
+<button onclick="appendValue('4')">4</button>
+<button onclick="appendValue('5')">5</button>
+<button onclick="appendValue('6')">6</button>
+<button onclick="appendValue('*')">×</button>
+
+<button onclick="appendValue('1')">1</button>
+<button onclick="appendValue('2')">2</button>
+<button onclick="appendValue('3')">3</button>
+<button onclick="appendValue('-')">−</button>
+
+<button onclick="appendValue('0')">0</button>
+<button onclick="calculate()">=</button>
+<button onclick="clearDisplay()">C</button>
+<button onclick="appendValue('+')">+</button>
+
 </div>
 
-<h3>History</h3>
+<hr>
 
-<button onclick="clearHistory()">Clear History</button>
+<!-- ================= TIMER ================= -->
 
-<ul id="history"></ul>
+<h2>Timer</h2>
+
+<input id="timerMin" placeholder="Minutes">
+<input id="timerSec" placeholder="Seconds">
+
+<br><br>
+
+<button onclick="startTimer()">Start Timer</button>
+
+<h3 id="countdown">00:00</h3>
+
+<hr>
+
+<!-- ================= NOTIFICATION ================= -->
+
+<h2>Notification Reminder</h2>
+
+<input id="notifyMessage" placeholder="Message">
+<input id="notifyMin" placeholder="Minutes">
+<input id="notifySec" placeholder="Seconds">
+
+<br><br>
+
+<button onclick="scheduleNotification()">Set Notification</button>
+
+<h3 id="status">Status : Waiting</h3>
 
 <script src="app.js"></script>
 
